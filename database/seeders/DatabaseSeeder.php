@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        TypeAccess::create(['type_name' => 'ssh_key']);
-        TypeAccess::create(['type_name' => 'user_password']);
+        TypeAccess::create(['name' => 'ssh_key']);
+        TypeAccess::create(['name' => 'user_password']);
         User::create(['name' => 'ООО ВОТЕЛ']);
         Access::create([
             'user_id' => 1,

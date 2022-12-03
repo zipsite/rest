@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Access;
 use App\Models\User;
-use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -37,15 +35,43 @@ class UserController extends Controller
         return response()->json($result);
     }
 
-    public function createUser(Request $request){
-        return "createUser";
+    public function createUser(Request $request) {
+        $input = $request->all();
+        $user = User::create([
+            'name' => $input['name']
+        ]);
+        return response()->json([
+            'id' => $user->id,
+            "name" => $user->name
+        ]);
     }
 
-    public function updateUser(){
-        return "updateUser";
+    public function updateUser(Request $request){
+        $input = $request->all();
+        $user = User::find($input["id"]);
+        $user->name = $input['name'];
+        $user->save();
+        return response()->json([
+            'id' => $user->id,
+            "name" => $user->name
+        ]);
     }
-    public function deleteUser(){
-        return "deleteUser";
+    public function deleteUser(Request $request, $id){
+        $user = User::find($id);
+        $result = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'accesses' => []
+        ];
+        foreach ($user->accesses as $access) {
+            array_push($result['accesses'], [
+                'id' => $access->id,
+                'type' => $access->typeId[0]->type_name,
+                'data' => $access->data
+            ]);
+        }
+        $user->delete();
+        return response()->json($result);
     }
 
 }

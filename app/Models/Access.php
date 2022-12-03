@@ -19,6 +19,6 @@ class Access extends Model
 
     public function typeId()
     {
-        return $this->hasMany(TypeAccess::class, 'id', 'type_id');
+        return $this->hasMany(Type::class, 'id', 'type_id');
     }
 }
