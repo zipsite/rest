@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AccessController extends Controller
 {
-    public function showAllAccess($user_id){
+    public function index($user_id){
         $accesses = User::find($user_id)->accesses;
         $result = [];
         foreach($accesses as $access){
@@ -21,7 +21,7 @@ class AccessController extends Controller
         }
         return response()->json($result);
     }
-    public function showAccess(Request $request, $user_id, $id) {
+    public function show($user_id, $id) {
         $access = User::find($user_id)->accesses->find($id);
         $result = [
             'id' => $access->id,
@@ -32,11 +32,11 @@ class AccessController extends Controller
         return response()->json($result);
     }
 
-    public function createAccess(Request $request, $user_id) {
+    public function store(Request $request, $user_id) {
         $input = $request->all();
         $access = Access::create([
             'type_id' => $input["type_id"],
-            'user_id' => $input["user_id"],
+            'user_id' => $user_id,
             'data' => $input["data"]
         ]);
         return response()->json([
@@ -47,11 +47,10 @@ class AccessController extends Controller
         ]);
     }
 
-    public function updateAccess(Request $request, $user_id){
+    public function update(Request $request, $user_id, $id){
         $input = $request->all();
-        $access = User::find($user_id)->accesses;
+        $access = User::find($user_id)->accesses->find($id);
         $access->type_id = $input['type_id'];
-        $access->user_id = $input['user_id'];
         $access->data = $input['data'];
 
         $access->save();
@@ -62,7 +61,7 @@ class AccessController extends Controller
             'data' => $access->data
         ]);
     }
-    public function deleteAccess(Request $request, $user_id, $id){
+    public function destroy($user_id, $id){
         $access = User::find($user_id)->accesses->find($id);
         $result = [
             'id' => $access->id,

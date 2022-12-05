@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TypeAccessController extends Controller
 {
-    public function showAllType(){
+    public function index(){
         $types = TypeAccess::all();
         $result = [];
         foreach($types as $type){
@@ -18,7 +18,7 @@ class TypeAccessController extends Controller
         }
         return response()->json($result);
     }
-    public function showType(Request $request, $id) {
+    public function show($id) {
         $type = TypeAccess::find($id);
         $result = [
             'id' => $type->id,
@@ -27,7 +27,7 @@ class TypeAccessController extends Controller
         return response()->json($result);
     }
 
-    public function createType(Request $request) {
+    public function store(Request $request) {
         $input = $request->all();
         $type = TypeAccess::create([
             'name' => $input['name']
@@ -38,9 +38,9 @@ class TypeAccessController extends Controller
         ]);
     }
 
-    public function updateType(Request $request){
+    public function update(Request $request, $id){
         $input = $request->all();
-        $type = TypeAccess::find($input["id"]);
+        $type = TypeAccess::find($id);
         $type->name = $input['name'];
         $type->save();
         return response()->json([
@@ -48,7 +48,7 @@ class TypeAccessController extends Controller
             "name" => $type->name
         ]);
     }
-    public function deleteType(Request $request, $id){
+    public function destroy($id){
         $user = TypeAccess::find($id);
         $result = [
             'id' => $user->id,
