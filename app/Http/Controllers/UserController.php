@@ -10,28 +10,14 @@ class UserController extends Controller
     public function index(){
         $users = User::all();
         $result = [];
-        foreach($users as $user){
-            array_push($result, [
-                'id' => $user->id,
-                'name' => $user->name
-            ]);
+        foreach ($users as $user) {
+            array_push($result, $user->only('id', 'name'));
         }
         return response()->json($result);
     }
     public function show($id) {
         $user = User::find($id);
-        $result = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'accesses' => []
-        ];
-        foreach ($user->accesses as $access) {
-            array_push($result['accesses'], [
-                'id' => $access->id,
-                'type' => $access->typeId[0]->name,
-                'data' => $access->data
-            ]);
-        }
+        $result = $user->only('id', 'name');
         return response()->json($result);
     }
 
@@ -40,10 +26,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $input['name']
         ]);
-        return response()->json([
-            'id' => $user->id,
-            "name" => $user->name
-        ]);
+        return response()->json($user->only('id', 'name'));
     }
 
     public function update(Request $request, $id){
@@ -51,25 +34,11 @@ class UserController extends Controller
         $user = User::find($id);
         $user->name = $input['name'];
         $user->save();
-        return response()->json([
-            'id' => $user->id,
-            "name" => $user->name
-        ]);
+        return response()->json($user->only('id', 'name'));
     }
     public function destroy($id){
         $user = User::find($id);
-        $result = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'accesses' => []
-        ];
-        foreach ($user->accesses as $access) {
-            array_push($result['accesses'], [
-                'id' => $access->id,
-                'type' => $access->typeId[0]->type_name,
-                'data' => $access->data
-            ]);
-        }
+        $result = $user->only('id', 'name');
         $user->delete();
         return response()->json($result);
     }

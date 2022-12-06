@@ -11,19 +11,13 @@ class TypeAccessController extends Controller
         $types = TypeAccess::all();
         $result = [];
         foreach($types as $type){
-            array_push($result, [
-                'id' => $type->id,
-                'name' => $type->name
-            ]);
+            array_push($result, $type->only('id', 'name'));
         }
         return response()->json($result);
     }
     public function show($id) {
         $type = TypeAccess::find($id);
-        $result = [
-            'id' => $type->id,
-            'name' => $type->name,
-        ];
+        $result = $type->only('id', 'name');
         return response()->json($result);
     }
 
@@ -32,10 +26,7 @@ class TypeAccessController extends Controller
         $type = TypeAccess::create([
             'name' => $input['name']
         ]);
-        return response()->json([
-            'id' => $type->id,
-            "name" => $type->name
-        ]);
+        return response()->json($type->only('id', 'name'));
     }
 
     public function update(Request $request, $id){
@@ -43,18 +34,12 @@ class TypeAccessController extends Controller
         $type = TypeAccess::find($id);
         $type->name = $input['name'];
         $type->save();
-        return response()->json([
-            'id' => $type->id,
-            "name" => $type->name
-        ]);
+        return response()->json($type->only('id', 'name'));
     }
     public function destroy($id){
-        $user = TypeAccess::find($id);
-        $result = [
-            'id' => $user->id,
-            'name' => $user->name
-        ];
-        $user->delete();
+        $type = TypeAccess::find($id);
+        $result = $type->only('id', 'name');
+        $type->delete();
         return response()->json($result);
     }
 }
