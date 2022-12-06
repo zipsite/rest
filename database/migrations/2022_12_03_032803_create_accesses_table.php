@@ -17,8 +17,8 @@ class CreateAccessesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('type_id')->references('id')->on("type_accesses")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreign('user_id')->references('id')->on("users")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreign('type_id')->references('id')->on("type_accesses");
+            $table->foreign('user_id')->references('id')->on("users");
             $table->text('data');
             $table->timestamps();
         });
