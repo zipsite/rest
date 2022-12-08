@@ -17,28 +17,45 @@ class TypeAccessController extends Controller
     }
     public function show($id) {
         $type = TypeAccess::find($id);
-        $result = $type->only('id', 'name');
+
+        $result = $type->only('id', 'name', 'struct');
+        $result['struct'] = json_decode($result['struct']);
+
         return response()->json($result);
     }
 
     public function store(Request $request) {
         $input = $request->all();
         $type = TypeAccess::create([
-            'name' => $input['name']
+            'name' => $input['name'],
+            'struct' => json_encode($input['struct'])
         ]);
-        return response()->json($type->only('id', 'name'));
+
+        $result = $type->only('id', 'name', 'struct');
+        $result['struct'] = json_decode($result['struct']);
+
+        return response()->json($result);
     }
 
     public function update(Request $request, $id){
         $input = $request->all();
         $type = TypeAccess::find($id);
+
         $type->name = $input['name'];
+        $type->struct = json_encode($input['struct']);
         $type->save();
-        return response()->json($type->only('id', 'name'));
+
+        $result = $type->only('id', 'name', 'struct');
+        $result['struct'] = json_decode($result['struct']);
+
+        return response()->json($result);
     }
     public function destroy($id){
         $type = TypeAccess::find($id);
-        $result = $type->only('id', 'name');
+
+        $result = $type->only('id', 'name', 'struct');
+        $result['struct'] = json_decode($result['struct']);
+        
         $type->delete();
         return response()->json($result);
     }

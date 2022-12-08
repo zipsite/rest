@@ -16,6 +16,7 @@ class CreateTypeAccessesTable extends Migration
         Schema::create('type_accesses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->json('struct');
             $table->timestamps();
         });
     }

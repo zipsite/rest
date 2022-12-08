@@ -15,11 +15,12 @@ class CreateAccessesTable extends Migration
     {
         Schema::create('accesses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('type_id')->references('id')->on("type_accesses");
             $table->foreign('user_id')->references('id')->on("users");
-            $table->text('data');
+            $table->json('data');
             $table->timestamps();
         });
     }

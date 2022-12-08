@@ -18,18 +18,36 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        TypeAccess::create(['name' => 'ssh_key']);
-        TypeAccess::create(['name' => 'user_password']);
+        TypeAccess::create([
+            'name' => 'ssh_key',
+            'struct' => json_encode([
+                'host' => '',
+                'user' => '',
+                'key' => [
+                    'type' => '',
+                    'value' => ''
+                ]
+            ])
+        ]);
+        TypeAccess::create([
+            'name' => 'user_password',
+            'struct' => json_encode([
+                'url' => '',
+                'steps' => ''
+            ])
+        ]);
         User::create(['name' => 'ООО ВОТЕЛ']);
         Access::create([
+            'name' => 'админка сервера',
             'user_id' => 1,
             'type_id' => 1,
-            'data' => "Здесь будет ssh_key"
+            'data' => TypeAccess::find(1)->struct
         ]);
         Access::create([
+            'name' => 'билайн бизнесс',
             'user_id' => 1,
             'type_id' => 2,
-            'data' => "Здесь будет пароль"
+            'data' => TypeAccess::find(2)->struct
         ]);
     }
 }
