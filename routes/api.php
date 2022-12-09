@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::apiResource('/user', 'UserController');
-Route::apiResource('/type', 'TypeAccessController');
-Route::apiResource('/user/{user}/access', 'AccessController');
+Route::apiResource('/client', 'ClientController');
+Route::apiResource('/type', 'AccessTypeController');
+Route::apiResource('/sample', 'AccessSampleController');
+Route::apiResource('/client/{client}/access', 'AccessController');

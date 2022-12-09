@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypeAccessesTable extends Migration
+class CreateAccessTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTypeAccessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_accesses', function (Blueprint $table) {
+        Schema::create('access_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('struct');
+            $table->json('data');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateTypeAccessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_accesses');
+        Schema::dropIfExists('access_types');
     }
 }

@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Access;
-use App\Models\TypeAccess;
-use App\Models\User;
+use App\Models\AccessSample;
+use App\Models\AccessType;
+use App\Models\Client;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,11 +17,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        TypeAccess::create([
-            'name' => 'ssh_key',
-            'struct' => json_encode([
-                'host' => '',
+        Client::create(['name' => 'ООО ВОТЕЛ']);
+        AccessType::create([
+            'name' => 'ssh',
+            'data' => json_encode([
+                ['name' => 'host', 'type' => 'ifstring', 'condition' => '/((\d{1,3}\.){3}\d{1,3}|(\w+\.)*\w):\d{1,5}/'],
+                ['name' => 'user', 'type' => 'string', 'edit' => true],
+                [
+                    'name' => 'key',
+                    'type' => 'object',
+                    'contained' => [
+                        ['name' => 'type', 'type' => 'enum', 'edit' => true, 'variants' => ['rsa', 'id545']],
+                        ['name' => 'value', 'type' => 'string', 'edit' => true]
+                    ]
+                ]
+            ]),
+        ]);
+        AccessSample::create([
+            'name' => 'server csl',
+            'type_id' => 1,
+            'data' => json_encode([
+                'host' => 'vsl.com:444',
                 'user' => '',
                 'key' => [
                     'type' => '',
@@ -29,25 +45,15 @@ class DatabaseSeeder extends Seeder
                 ]
             ])
         ]);
-        TypeAccess::create([
-            'name' => 'user_password',
-            'struct' => json_encode([
-                'url' => '',
-                'steps' => ''
+        Access::create([
+            'name' => 'admin_server',
+            'sample_id' => 1,
+            'client_id' => 1,
+            'data' => json_encode([
+                'user' => 'user',
+                'type' => 'rsa',
+                'value' => '*some key*'
             ])
-        ]);
-        User::create(['name' => 'ООО ВОТЕЛ']);
-        Access::create([
-            'name' => 'админка сервера',
-            'user_id' => 1,
-            'type_id' => 1,
-            'data' => TypeAccess::find(1)->struct
-        ]);
-        Access::create([
-            'name' => 'билайн бизнесс',
-            'user_id' => 1,
-            'type_id' => 2,
-            'data' => TypeAccess::find(2)->struct
         ]);
     }
 }

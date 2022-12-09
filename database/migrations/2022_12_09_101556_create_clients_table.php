@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccessesTable extends Migration
+class CreateClientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateAccessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('accesses', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('type_id');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('type_id')->references('id')->on("type_accesses");
-            $table->foreign('user_id')->references('id')->on("users");
-            $table->json('data');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateAccessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accesses');
+        Schema::dropIfExists('clients');
     }
 }

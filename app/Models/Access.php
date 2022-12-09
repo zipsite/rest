@@ -12,13 +12,13 @@ class Access extends Model
     protected $table = 'accesses';
     protected $guarded = [];
 
-    public function userId()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 
-    public function typeId()
+    public function access_sample()
     {
-        return $this->hasMany(TypeAccess::class, 'id', 'type_id');
+        return $this->belongsTo(AccessSample::class, 'sample_id', 'id');
     }
 }

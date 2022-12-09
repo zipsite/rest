@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TypeAccess;
+use App\Models\AccessType;
 use Illuminate\Http\Request;
 
-class TypeAccessController extends Controller
+class AccessTypeController extends Controller
 {
     public function index(){
-        $types = TypeAccess::all();
+        $types = AccessType::all();
         $result = [];
         foreach($types as $type){
             array_push($result, $type->only('id', 'name'));
@@ -16,45 +16,45 @@ class TypeAccessController extends Controller
         return response()->json($result);
     }
     public function show($id) {
-        $type = TypeAccess::find($id);
+        $type = AccessType::find($id);
 
-        $result = $type->only('id', 'name', 'struct');
-        $result['struct'] = json_decode($result['struct']);
+        $result = $type->only('id', 'name', 'data');
+        $result['data'] = json_decode($result['data']);
 
         return response()->json($result);
     }
 
     public function store(Request $request) {
         $input = $request->all();
-        $type = TypeAccess::create([
+        $type = AccessType::create([
             'name' => $input['name'],
-            'struct' => json_encode($input['struct'])
+            'data' => json_encode($input['data'])
         ]);
 
-        $result = $type->only('id', 'name', 'struct');
-        $result['struct'] = json_decode($result['struct']);
+        $result = $type->only('id', 'name', 'data');
+        $result['data'] = json_decode($result['data']);
 
         return response()->json($result);
     }
 
     public function update(Request $request, $id){
         $input = $request->all();
-        $type = TypeAccess::find($id);
+        $type = AccessType::find($id);
 
         $type->name = $input['name'];
-        $type->struct = json_encode($input['struct']);
+        $type->data = json_encode($input['data']);
         $type->save();
 
-        $result = $type->only('id', 'name', 'struct');
-        $result['struct'] = json_decode($result['struct']);
+        $result = $type->only('id', 'name', 'data');
+        $result['data'] = json_decode($result['data']);
 
         return response()->json($result);
     }
     public function destroy($id){
-        $type = TypeAccess::find($id);
+        $type = AccessType::find($id);
 
-        $result = $type->only('id', 'name', 'struct');
-        $result['struct'] = json_decode($result['struct']);
+        $result = $type->only('id', 'name', 'data');
+        $result['data'] = json_decode($result['data']);
         
         $type->delete();
         return response()->json($result);
